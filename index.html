@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Manslator 😎</title>
+<style>
+  body{font-family: Poppins, sans-serif; background:#111; color:#eee; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh;}
+  textarea{width:300px; height:100px; border-radius:10px; border:none; padding:10px; margin-bottom:10px;}
+  button{background:#ff0055; color:#fff; border:none; padding:10px 20px; border-radius:10px; cursor:pointer;}
+  .response{margin-top:20px; background:#222; padding:15px; border-radius:10px; width:320px; white-space:pre-wrap;}
+</style>
+</head>
+<body>
+  <h2>Manslator 💬</h2>
+  <textarea id="input" placeholder="Type what she said..."></textarea><br>
+  <button onclick="translate()">Translate 👀</button>
+  <div id="res" class="response"></div>
+
+<script>
+async function translate(){
+  const text = document.getElementById("input").value.trim();
+  if(!text) return alert("Type something!");
+  document.getElementById("res").innerText = "Translating...";
+  const r = await fetch("/api/manslator.php", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ text })
+  });
+  const data = await r.json();
+  document.getElementById("res").innerText = data.reply || "Error";
+}
+</script>
+</body>
+</html>
