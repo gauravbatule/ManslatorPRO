@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manslator Pro 😎</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0f172a;
+    --bg-secondary: rgba(15, 23, 42, 0.92);
+    --bg-card: rgba(30, 41, 59, 0.85);
+    --accent: #f97316;
+    --accent-secondary: #22d3ee;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --border: rgba(148, 163, 184, 0.25);
+    --shadow: 0 20px 45px rgba(15, 23, 42, 0.45);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, rgba(56, 189, 248, 0.12), transparent 55%),
+                radial-gradient(circle at bottom, rgba(249, 115, 22, 0.15), transparent 50%),
+                var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+  }
+
+  .container {
+    position: relative;
+    background: var(--bg-secondary);
+    border-radius: 28px;
+    padding: 42px 38px 48px;
+    width: 100%;
+    max-width: 720px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(16px);
+  }
+
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .title {
+    font-size: 2.4rem;
+    font-weight: 700;
+    background: linear-gradient(120deg, #f97316 0%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    max-width: 420px;
+    line-height: 1.5;
+  }
+
+  .menu-btn {
+    flex-shrink: 0;
+    background: rgba(148, 163, 184, 0.08);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 1.4rem;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .menu-btn:hover {
+    background: rgba(34, 211, 238, 0.12);
+    border-color: rgba(34, 211, 238, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .menu-btn:active {
+    transform: translateY(0);
+  }
+
+  .example-menu {
+    position: absolute;
+    top: 84px;
+    right: 42px;
+    width: min(320px, 90vw);
+    background: rgba(15, 23, 42, 0.98);
+    border-radius: 18px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.6);
+    padding: 18px 20px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 10;
+  }
+
+  .footer {
+    margin-top: 26px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+  }
+
+  .footer a {
+    color: var(--accent-secondary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+  }
+
+  .example-menu.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .input-group {
+    margin-bottom: 22px;
+  }
+
+  textarea {
+    width: 100%;
+    height: 140px;
+    border-radius: 18px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    padding: 20px 22px;
+    background: rgba(15, 23, 42, 0.65);
+    color: var(--text-primary);
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    resize: vertical;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: rgba(34, 211, 238, 0.7);
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18);
+  }
+
+  textarea::placeholder {
+    color: rgba(148, 163, 184, 0.8);
+  }
+
+  .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .suggestion-chip {
+    background: rgba(34, 211, 238, 0.12);
+    border: 1px solid rgba(34, 211, 238, 0.45);
+    border-radius: 999px;
+    color: var(--text-primary);
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    max-width: 100%;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .suggestion-chip:hover {
+    transform: translateY(-1px);
+    border-color: rgba(249, 115, 22, 0.55);
+    background: rgba(249, 115, 22, 0.18);
+  }
+
+  .suggestion-chip .chip-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .translate-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(120deg, #f97316 0%, #db2777 55%, #22d3ee 100%);
+    color: #0f172a;
+    border: none;
+    padding: 16px 34px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+    box-shadow: 0 12px 35px rgba(249, 115, 22, 0.35);
+  }
+
+  .translate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 45px rgba(249, 115, 22, 0.4);
+    filter: brightness(1.05);
+  }
+
+  .translate-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    filter: none;
+    box-shadow: none;
+  }
+
+  .loading {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(15, 23, 42, 0.25);
+    border-radius: 50%;
+    border-top-color: #0f172a;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .menu-section {
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 16px;
+    padding: 14px 16px 18px;
+    margin-bottom: 14px;
+  }
+
+  .menu-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .menu-title {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+
+  .menu-note {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .example-list {
+    display: grid;
+    gap: 10px;
+    max-height: 260px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .example-empty {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    border: 1px dashed rgba(148, 163, 184, 0.35);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .example-item {
+    text-align: left;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 14px;
+    padding: 12px 14px;
+    background: rgba(30, 41, 59, 0.85);
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+    cursor: pointer;
+  }
+
+  .example-item:hover {
+    border-color: rgba(34, 211, 238, 0.6);
+    background: rgba(34, 211, 238, 0.08);
+    transform: translateX(-2px);
+  }
+
+  .example-item.custom {
+    border-color: rgba(249, 115, 22, 0.4);
+  }
+
+  .example-question {
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  .example-answer {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .example-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .menu-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+  }
+
+  .menu-optional {
+    font-weight: 400;
+    font-size: 0.75rem;
+  }
+
+  .menu-input,
+  .menu-textarea {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    background: rgba(15, 23, 42, 0.75);
+    color: var(--text-primary);
+    padding: 10px 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .menu-input:focus,
+  .menu-textarea:focus {
+    outline: none;
+    border-color: rgba(34, 211, 238, 0.6);
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18);
+  }
+
+  .menu-textarea {
+    resize: vertical;
+    min-height: 70px;
+  }
+
+  .menu-button {
+    align-self: flex-start;
+    background: linear-gradient(120deg, #22d3ee 0%, #3b82f6 100%);
+    border: none;
+    border-radius: 999px;
+    color: #0f172a;
+    font-weight: 600;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .menu-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 24px rgba(59, 130, 246, 0.35);
+  }
+
+  .response {
+    margin-top: 32px;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(34, 211, 238, 0.18);
+    border-radius: 22px;
+    padding: 26px 28px;
+    box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.06);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .response.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .error-message {
+    color: #f87171;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: none;
+  }
+
+  .response.has-error .error-message {
+    display: block;
+  }
+
+  .panels {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .panel {
+    background: var(--bg-card);
+    border-radius: 18px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    padding: 18px 20px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.08);
+  }
+
+  .panel h3 {
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--accent-secondary);
+    letter-spacing: 0.04em;
+  }
+
+  .panel-text {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--text-primary);
+  }
+
+  .meta-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .meta-line {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  @media (max-width: 900px) {
+    .panels {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    body {
+      padding: 20px;
+    }
+
+    .container {
+      padding: 32px 24px 40px;
+      border-radius: 24px;
+    }
+
+    .suggestions {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 20px;
+    }
+
+    .suggestions::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .suggestions::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.4);
+      border-radius: 999px;
+    }
+
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .menu-btn {
+      align-self: flex-end;
+      margin-top: 12px;
+    }
+
+    textarea {
+      height: 120px;
+      font-size: 15px;
+    }
+
+    .translate-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .panels {
+      grid-template-columns: 1fr;
+    }
+
+    .example-menu {
+      right: 24px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1 class="title">Manslator Pro 💬</h1>
+        <p class="subtitle">Decode the subtext. Deliver the perfect comeback. Stay unshakeable.</p>
+      </div>
+      <button class="menu-btn" id="menu-btn" aria-haspopup="true" aria-expanded="false" aria-controls="example-menu">☰</button>
+    </div>
+
+    <div class="example-menu" id="example-menu" role="menu" aria-hidden="true">
+      <div class="menu-section">
+        <h3 class="menu-title">Saved Prompts</h3>
+        <div class="example-list" id="example-list"></div>
+      </div>
+      <div class="menu-section">
+        <h3 class="menu-title">Add Your Own</h3>
+        <p class="menu-note">Save a Hinglish exchange for quick reuse. Answer is optional.</p>
+        <form id="example-form" class="example-form">
+          <label class="menu-label" for="example-question">Prompt</label>
+          <input id="example-question" class="menu-input" type="text" placeholder="e.g. Tum mujhe deserve karte ho?" maxlength="200" required>
+          <label class="menu-label" for="example-answer">Suggested reply <span class="menu-optional">(optional)</span></label>
+          <textarea id="example-answer" class="menu-textarea" rows="2" placeholder="Add a comeback to reference later" maxlength="240"></textarea>
+          <button type="submit" class="menu-button">Add to list</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <textarea id="input" placeholder="Type what she said... 🤔"></textarea>
+    </div>
+    
+      <div class="suggestions" id="suggestion-chips"></div>
+
+    <button class="translate-btn" id="translate-btn">
+      <span id="btn-text">Translate & Reply ✨</span>
+    </button>
+
+    <div id="res" class="response" aria-live="polite">
+      <div id="res-error" class="error-message"></div>
+      <div id="res-panels" class="panels hidden">
+        <div class="panel">
+          <h3>What She Said</h3>
+          <p class="panel-text" id="txt-said"></p>
+        </div>
+        <div class="panel">
+          <h3>What She Means</h3>
+          <p class="panel-text" id="txt-means"></p>
+        </div>
+        <div class="panel">
+          <h3>Smart Reply</h3>
+          <p class="panel-text" id="txt-reply"></p>
+        </div>
+        <div class="panel">
+          <h3>Game Plan</h3>
+          <div class="meta-block">
+            <span class="meta-line" id="txt-tone"></span>
+            <span class="meta-line" id="txt-confidence"></span>
+            <span class="panel-text" id="txt-advice"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="footer">Crafted by Gaurav Batule · <a href="https://www.linkedin.com/in/gaurav-batule/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a></p>
+  </div>
+
+<script>
+let isTranslating = false;
+const inputEl = document.getElementById("input");
+const btnText = document.getElementById("btn-text");
+const button = document.getElementById("translate-btn");
+const responseContainer = document.getElementById("res");
+const resError = document.getElementById("res-error");
+const panelsWrapper = document.getElementById("res-panels");
+const saidEl = document.getElementById("txt-said");
+const meansEl = document.getElementById("txt-means");
+const replyEl = document.getElementById("txt-reply");
+const toneEl = document.getElementById("txt-tone");
+const confidenceEl = document.getElementById("txt-confidence");
+const adviceEl = document.getElementById("txt-advice");
+const menuBtn = document.getElementById("menu-btn");
+const exampleMenu = document.getElementById("example-menu");
+const exampleList = document.getElementById("example-list");
+const exampleForm = document.getElementById("example-form");
+const exampleQuestionInput = document.getElementById("example-question");
+const exampleAnswerInput = document.getElementById("example-answer");
+const suggestionContainer = document.getElementById("suggestion-chips");
+
+const defaultExamples = [
+  {
+    question: "Me or the most beautiful girl in the world?",
+    answer: "The most beautiful girl in the world… kyunki wo tu hi toh hai. 😌"
+  },
+  {
+    question: "Would you date your ex if we breakup?",
+    answer: "Haan, kyunki tu hi meri ex banegi. 😉"
+  },
+  {
+    question: "Who do you love more — me or yourself?",
+    answer: "Mujhe apne aap se bhi zyada tu pasand hai. ❤️"
+  },
+  {
+    question: "If I go away forever?",
+    answer: "Tab bhi tu mere har khayal ke beech mein hogi."
+  },
+  {
+    question: "Who’s your crush right now?",
+    answer: "Same as yesterday — tu. 😎"
+  },
+  {
+    question: "If I flirt with someone else?",
+    answer: "Main khush ho jaunga, kyunki fir sabko pata chalega tu kitni amazing hai."
+  },
+  {
+    question: "If you had one wish?",
+    answer: "Tera 'always' mil jaaye bas. 💫"
+  },
+  {
+    question: "If I stop talking to you?",
+    answer: "Toh main tujhse khud pe gussa ho jaunga."
+  },
+  {
+    question: "If you could choose anyone in the world?",
+    answer: "Phir bhi tu hi. Baaki sab optional characters hain."
+  },
+  {
+    question: "Main zyada pretty lagti hoon ya smart?",
+    answer: "Pretty bhi tu, smart bhi tu — matlab overpowered character hai tu. 😅"
+  },
+  {
+    question: "What would you do if I left you on read?",
+    answer: "Reply nahi milega, par dua milti rahegi."
+  },
+  {
+    question: "Tum mujhe deserve karte ho?",
+    answer: "Karna nahi padta, bas feel hota hai."
+  }
+];
+
+let customExamples = [];
+
+function createChip(example) {
+  const chip = document.createElement("button");
+  chip.type = "button";
+  chip.className = "suggestion-chip";
+  chip.innerHTML = `<span class="chip-label">${example.question}</span>`;
+  chip.addEventListener("click", () => {
+    inputEl.value = example.question;
+    inputEl.dispatchEvent(new Event("input"));
+    inputEl.focus();
+  });
+  return chip;
+}
+
+function renderSuggestionChips() {
+  if (!suggestionContainer) return;
+  suggestionContainer.innerHTML = "";
+
+  const source = [...defaultExamples, ...customExamples];
+  source.forEach((example) => {
+    suggestionContainer.appendChild(createChip(example));
+  });
+}
+
+function renderCustomList() {
+  if (!exampleList) return;
+  exampleList.innerHTML = "";
+
+  if (!customExamples.length) {
+    const empty = document.createElement("p");
+    empty.className = "example-empty";
+    empty.textContent = "No saved prompts yet. Add one below.";
+    exampleList.appendChild(empty);
+    return;
+  }
+
+  customExamples.forEach((example) => {
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "example-item custom";
+
+    const questionSpan = document.createElement("span");
+    questionSpan.className = "example-question";
+    questionSpan.textContent = example.question;
+    item.appendChild(questionSpan);
+
+    if (example.answer) {
+      const answerSpan = document.createElement("span");
+      answerSpan.className = "example-answer";
+      answerSpan.textContent = example.answer;
+      item.appendChild(answerSpan);
+    }
+
+    item.addEventListener("click", () => {
+      inputEl.value = example.question;
+      inputEl.dispatchEvent(new Event("input"));
+      closeMenu();
+      inputEl.focus();
+    });
+
+    exampleList.appendChild(item);
+  });
+}
+
+renderSuggestionChips();
+renderCustomList();
+
+if (exampleForm) {
+  exampleForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const question = exampleQuestionInput.value.trim();
+    const answer = exampleAnswerInput.value.trim();
+
+    if (!question) {
+      exampleQuestionInput.focus();
+      return;
+    }
+
+    customExamples = [
+      {
+        question,
+        answer,
+        custom: true
+      },
+      ...customExamples
+    ];
+
+    renderSuggestionChips();
+    renderCustomList();
+    exampleForm.reset();
+    exampleQuestionInput.focus();
+  });
+}
+
+function openMenu() {
+  exampleMenu.classList.add("open");
+  exampleMenu.setAttribute("aria-hidden", "false");
+  menuBtn.setAttribute("aria-expanded", "true");
+}
+
+function closeMenu() {
+  exampleMenu.classList.remove("open");
+  exampleMenu.setAttribute("aria-hidden", "true");
+  menuBtn.setAttribute("aria-expanded", "false");
+}
+
+function toggleMenu() {
+  if (exampleMenu.classList.contains("open")) {
+    closeMenu();
+  } else {
+    openMenu();
+  }
+}
+
+menuBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+  toggleMenu();
+});
+
+document.addEventListener("click", (event) => {
+  if (!exampleMenu.contains(event.target) && event.target !== menuBtn) {
+    closeMenu();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeMenu();
+  }
+});
+
+function resetOutput() {
+  resError.textContent = "";
+  responseContainer.classList.remove("show", "has-error");
+  panelsWrapper.classList.add("hidden");
+  [saidEl, meansEl, replyEl, toneEl, confidenceEl, adviceEl].forEach((el) => {
+    if (el) {
+      el.textContent = "";
+    }
+  });
+}
+
+function titleCase(value) {
+  if (!value) return "";
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+async function translateMessage() {
+  const text = inputEl.value.trim();
+
+  if (!text) {
+    showError("Please type something first! 🤷");
+    return;
+  }
+
+  if (isTranslating) return;
+
+  resetOutput();
+
+  isTranslating = true;
+  button.disabled = true;
+  btnText.innerHTML = '<span class="loading"></span>Translating...';
+
+  try {
+    const response = await invokeTranslatorEndpoint({ text });
+
+    const rawBody = await response.text();
+    let data = null;
+
+    if (rawBody) {
+      try {
+        data = JSON.parse(rawBody);
+      } catch (jsonError) {
+        // Ignore here; we will surface rawBody if needed
+      }
+    }
+
+    if (!response.ok) {
+      const rawDetails = data?.details || data?.error || data?.message || rawBody || response.statusText;
+      const details = typeof rawDetails === "string" ? rawDetails.slice(0, 300) : JSON.stringify(rawDetails);
+      throw new Error(`Groq error (${response.status}): ${details}`);
+    }
+
+    if (!data) {
+      throw new Error("Translator returned an empty response");
+    }
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    if (!data.reply) {
+      throw new Error("No response received");
+    }
+
+    showResponse(data.reply);
+
+  } catch (error) {
+    console.error("Translation error:", error);
+    showError(`Oops! Something went wrong: ${error.message} 😅`);
+  } finally {
+    isTranslating = false;
+    button.disabled = false;
+    btnText.innerHTML = "Translate & Reply ✨";
+  }
+}
+
+async function invokeTranslatorEndpoint(payload) {
+  const endpoints = [
+    "api/manslator",
+    "/api/manslator",
+    "api/manslator.php",
+    "/api/manslator.php",
+    "manslator.php",
+    "/manslator.php"
+  ]; // Prefer Vercel/API routes but fall back to PHP scripts locally
+
+  for (const endpoint of endpoints) {
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.status === 404 || response.status === 405) {
+        // Endpoint missing or wrong method; try the next option.
+        continue;
+      }
+
+      return response;
+    } catch (networkError) {
+      console.warn(`Translator request to ${endpoint} failed`, networkError);
+      // Try next endpoint
+    }
+  }
+
+  throw new Error("No translator endpoint accepted the POST request (404/405 from Manslator API)");
+}
+
+function showResponse(reply) {
+  responseContainer.classList.add("show");
+  responseContainer.classList.remove("has-error");
+  panelsWrapper.classList.remove("hidden");
+
+  saidEl.textContent = reply.whatSheSaid || inputEl.value;
+  meansEl.textContent = reply.whatSheMeans || "Couldn't decode that vibe. Try rephrasing.";
+  replyEl.textContent = reply.smartReply || "No reply generated. Try again.";
+
+  const tone = titleCase(reply.tone || "");
+  const confidence = titleCase(reply.confidence || "");
+
+  toneEl.textContent = tone ? `Tone: ${tone}` : "";
+  confidenceEl.textContent = confidence ? `Confidence: ${confidence}` : "";
+  adviceEl.textContent = reply.microAdvice || "Deliver it calm, steady, and with a smirk.";
+}
+
+function showError(message) {
+  panelsWrapper.classList.add("hidden");
+  resError.textContent = message;
+  responseContainer.classList.add("show", "has-error");
+}
+
+// Add Enter key support (Ctrl+Enter to translate)
+inputEl.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && event.ctrlKey) {
+    event.preventDefault();
+    translateMessage();
+  }
+});
+
+// Auto-resize textarea
+inputEl.addEventListener("input", function () {
+  this.style.height = "auto";
+  this.style.height = Math.min(this.scrollHeight, 240) + "px";
+});
+
+button.addEventListener("click", translateMessage);
+
+// Add animations on load
+window.addEventListener("load", () => {
+  const container = document.querySelector(".container");
+  container.style.opacity = "0";
+  container.style.transform = "translateY(24px)";
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      container.style.transition = "all 0.8s ease";
+      container.style.opacity = "1";
+      container.style.transform = "translateY(0)";
+    }, 90);
+  });
+});
+</script>
+</body>
+</html>
