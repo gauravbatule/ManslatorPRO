@@ -50,7 +50,7 @@ GROQ_REASONING_EFFORT=medium
 ## API Endpoints
 
 - `POST /api/manslator` → Vercel serverless function (preferred for deployment)
-- `POST /api/manslator.php` or `/manslator.php` → PHP fallback when running on traditional hosting
+- `POST /api/manslator-php.php` or `/manslator.php` → PHP fallback when running on traditional hosting
 
 Body: `{"text": "what she said"}`
 
